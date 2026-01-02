@@ -1,0 +1,38 @@
+[
+  {
+    "id": "reserva-tinto-2021",
+    "nome": "Reserva Tinto",
+    "ano": 2021,
+    "regiao": "Douro",
+    "castas": ["Touriga Nacional", "Tinta Roriz", "Touriga Franca"],
+    "descricaoCurta": "Estruturado e elegante, com fruta negra e especiarias.",
+    "notasProva": "Aroma intenso a amora e cassis, notas de especiarias e madeira bem integrada. Boca cheia, taninos firmes e final longo.",
+    "harmonizacao": "Carnes vermelhas, cabrito assado, queijos curados.",
+    "temperatura": "16–18 ºC",
+    "imagem": "img/reserva-2021.jpg"
+  },
+  {
+    "id": "branco-fresco-2023",
+    "nome": "Branco Fresco",
+    "ano": 2023,
+    "regiao": "Vinho Verde",
+    "castas": ["Loureiro"],
+    "descricaoCurta": "Leve, fresco e muito aromático.",
+    "notasProva": "Notas cítricas de lima e toranja, flor de laranjeira e excelente acidez.",
+    "harmonizacao": "Peixe grelhado, marisco, saladas.",
+    "temperatura": "8–10 ºC",
+    "imagem": "img/branco-2023.jpg"
+  },
+  {
+    "id": "rose-atlantico-2022",
+    "nome": "Rosé Atlântico",
+    "ano": 2022,
+    "regiao": "Lisboa",
+    "castas": ["Aragonês", "Syrah"],
+    "descricaoCurta": "Seco, frutado e refrescante.",
+    "notasProva": "Aromas de morango e framboesa, boca fresca e equilibrada.",
+    "harmonizacao": "Sushi, pratos leves, verão.",
+    "temperatura": "10–12 ºC",
+    "imagem": "img/rose-2022.jpg"
+  }
+]
