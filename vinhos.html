@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wine</title>
+
+  <style>
+    :root {
+      --max-width: 1100px;
+      --accent: #7b1e2b;
+      --border: #e6e6e6;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, sans-serif;
+      line-height: 1.6;
+      color: #222;
+      background: #fafafa;
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .wine-layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 32px;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 900px) {
+      .wine-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .wine-image img {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 24px;
+    }
+
+    dl {
+      margin: 0;
+    }
+
+    dt {
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    dd {
+      margin: 4px 0 0;
+    }
+
+    footer {
+      margin-top: 64px;
+      padding: 24px 16px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="index.html">← Back to wines</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="content"></div>
+  </main>
+
+  <footer>
+    © 2026 · My Wines
+  </footer>
+
+  <script>
+    function getWineId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("id");
+    }
+
+    async function loadWine() {
+      const wineId = getWineId();
+
+      if (!wineId) {
+        document.getElementById("content").innerHTML =
+          "<p>Wine not found.</p>";
+        return;
+      }
+
+      const response = await fetch("data/vinhos.json");
+      const wines = await response.json();
+
+      const wine = wines.find(w => w.id === wineId);
+
+      if (!wine) {
+        document.getElementById("content").innerHTML =
+          "<p>Wine not found.</p>";
+        return;
+      }
+
+      document.title = `${wine.nome} (${wine.ano})`;
+
+      document.getElementById("content").innerHTML = `
+        <div class="wine-layout">
+          <div class="wine-image">
+            <img src="${wine.imagem}" alt="${wine.nome} ${wine.ano}">
+          </div>
+
+          <div>
+            <h1>${wine.nome} (${wine.ano})</h1>
+            <div class="subtitle">${wine.regiao}</div>
+
+            <dl>
+              <dt>Grapes</dt>
+              <dd>${wine.castas.join(", ")}</dd>
+
+              <dt>Tasting notes</dt>
+              <dd>${wine.notasProva}</dd>
+
+              <dt>Food pairing</dt>
+              <dd>${wine.harmonizacao}</dd>
+
+              <dt>Serving temperature</dt>
+              <dd>${wine.temperatura}</dd>
+            </dl>
+          </div>
+        </div>
+      `;
+    }
+
+    loadWine();
+  </script>
+</body>
+</html>
