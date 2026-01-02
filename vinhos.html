@@ -6,97 +6,220 @@
   <title>Wine</title>
 
   <style>
-    :root {
-      --max-width: 1100px;
-      --accent: #7b1e2b;
-      --border: #e6e6e6;
+    :root{
+      --bg: #0b0b0d;
+      --surface: rgba(255,255,255,.06);
+      --surface2: rgba(255,255,255,.09);
+      --border: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --accent: #b11f35;
+      --accent2:#f1c376;
+      --shadow: 0 18px 40px rgba(0,0,0,.45);
+      --r-lg: 22px;
+      --r-md: 16px;
+      --max: 1100px;
     }
 
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, sans-serif;
-      line-height: 1.6;
-      color: #222;
-      background: #fafafa;
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 700px at 12% -10%, rgba(177,31,53,.28), transparent 60%),
+        radial-gradient(900px 600px at 90% 10%, rgba(241,195,118,.16), transparent 55%),
+        radial-gradient(900px 600px at 50% 120%, rgba(177,31,53,.18), transparent 60%),
+        var(--bg);
+      line-height:1.6;
     }
 
-    header {
-      background: #fff;
-      border-bottom: 1px solid var(--border);
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:none; }
+
+    .container{
+      max-width: var(--max);
+      margin:0 auto;
+      padding: 22px 16px;
     }
 
-    .container {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 24px 16px;
+    header{
+      position: sticky;
+      top:0;
+      z-index:10;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom, rgba(11,11,13,.86), rgba(11,11,13,.40));
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.86);
+    }
+    .back-link:hover{
+      border-color: rgba(241,195,118,.25);
+      background: rgba(241,195,118,.08);
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
     }
 
-    .wine-layout {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 32px;
-      margin-top: 32px;
+    .crumb{
+      color: var(--muted);
+      font-size: .92rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 55%;
     }
 
-    @media (max-width: 900px) {
-      .wine-layout {
-        grid-template-columns: 1fr;
-      }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size:.9rem;
+      flex-shrink: 0;
     }
 
-    .wine-image img {
-      width: 100%;
-      border-radius: 16px;
-      border: 1px solid var(--border);
+    .badge-dot{
+      width:8px; height:8px; border-radius:50%;
+      background: linear-gradient(180deg, var(--accent2), var(--accent));
+      box-shadow: 0 0 0 3px rgba(177,31,53,.18);
+    }
+
+    .wine-layout{
+      display:grid;
+      grid-template-columns: 420px 1fr;
+      gap: 22px;
+      margin-top: 18px;
+      align-items:start;
+    }
+
+    @media (max-width: 960px){
+      .wine-layout{ grid-template-columns: 1fr; }
+      .crumb{ display:none; }
+    }
+
+    .wine-image{
+      position: relative;
+    }
+
+    .wine-image img{
+      width:100%;
+      border-radius: var(--r-lg);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 16px 36px rgba(0,0,0,.35);
       object-fit: cover;
+      display:block;
+      min-height: 380px;
+      max-height: 520px;
     }
 
-    h1 {
+    .image-overlay{
+      position:absolute;
+      inset:auto 14px 14px 14px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.45));
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(10px);
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.82);
+      font-size: .86rem;
+    }
+
+    .card{
+      border-radius: var(--r-lg);
+      padding: 16px 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 10px 28px rgba(0,0,0,.25);
+    }
+
+    h1{
+      margin: 0 0 6px;
+      font-size: clamp(1.6rem, 2.2vw, 2.15rem);
+      letter-spacing:.2px;
+    }
+
+    .subtitle{
+      color: var(--muted);
       margin-top: 0;
-      margin-bottom: 4px;
+      margin-bottom: 14px;
     }
 
-    .subtitle {
-      color: #666;
-      margin-bottom: 24px;
+    .divider{
+      height: 1px;
+      margin: 14px 0;
+      background: linear-gradient(90deg, rgba(241,195,118,.35), rgba(177,31,53,.25), transparent);
     }
 
-    dl {
-      margin: 0;
+    dl{ margin:0; }
+    dt{
+      margin-top: 12px;
+      font-weight: 650;
+      color: rgba(255,255,255,.88);
+      letter-spacing:.2px;
+    }
+    dd{
+      margin: 6px 0 0;
+      color: var(--muted);
     }
 
-    dt {
-      font-weight: 600;
-      margin-top: 16px;
+    .empty{
+      color: rgba(255,255,255,.72);
+      font-style: italic;
     }
 
-    dd {
-      margin: 4px 0 0;
-    }
-
-    footer {
-      margin-top: 64px;
-      padding: 24px 16px;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
+    footer{
+      margin-top: 54px;
+      padding: 26px 16px 34px;
+      text-align:center;
+      color: rgba(255,255,255,.55);
+      font-size: .92rem;
     }
   </style>
 </head>
+
 <body>
   <header>
-    <div class="container">
-      <a href="index.html">← Back to wines</a>
+    <div class="container topbar">
+      <a class="back-link" href="index.html">← Back to wines</a>
+      <div class="crumb" id="crumb">Loading…</div>
+      <div class="badge" aria-label="Wine id">
+        <span class="badge-dot"></span>
+        <span id="idBadge">—</span>
+      </div>
     </div>
   </header>
 
@@ -114,57 +237,25 @@
       return params.get("id");
     }
 
-    async function loadWine() {
-      const wineId = getWineId();
-
-      if (!wineId) {
-        document.getElementById("content").innerHTML =
-          "<p>Wine not found.</p>";
-        return;
-      }
-
-      const response = await fetch("data/vinhos.json");
-      const wines = await response.json();
-
-      const wine = wines.find(w => w.id === wineId);
-
-      if (!wine) {
-        document.getElementById("content").innerHTML =
-          "<p>Wine not found.</p>";
-        return;
-      }
-
-      document.title = `${wine.nome} (${wine.ano})`;
-
-      document.getElementById("content").innerHTML = `
-        <div class="wine-layout">
-          <div class="wine-image">
-            <img src="${wine.imagem}" alt="${wine.nome} ${wine.ano}">
-          </div>
-
-          <div>
-            <h1>${wine.nome} (${wine.ano})</h1>
-            <div class="subtitle">${wine.regiao}</div>
-
-            <dl>
-              <dt>Grapes</dt>
-              <dd>${wine.castas.join(", ")}</dd>
-
-              <dt>Tasting notes</dt>
-              <dd>${wine.notasProva}</dd>
-
-              <dt>Food pairing</dt>
-              <dd>${wine.harmonizacao}</dd>
-
-              <dt>Serving temperature</dt>
-              <dd>${wine.temperatura}</dd>
-            </dl>
-          </div>
-        </div>
-      `;
+    function safeText(value) {
+      return (value === undefined || value === null || value === "") ? null : String(value);
     }
 
-    loadWine();
-  </script>
-</body>
-</html>
+    async function loadWine() {
+      const content = document.getElementById("content");
+      const crumb = document.getElementById("crumb");
+      const idBadge = document.getElementById("idBadge");
+
+      const wineId = getWineId();
+      if (idBadge) idBadge.textContent = wineId || "—";
+
+      if (!wineId) {
+        if (crumb) crumb.textContent = "No id provided";
+        content.innerHTML = `
+          <div class="card">
+            <h1>Wine not found</h1>
+            <p class="subtitle">Missing query parameter <code>id</code>.</p>
+            <div class="divider"></div>
+            <p class="empty">Try opening a wine from the main page.</p>
+          </div>
+        `;
