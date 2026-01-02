@@ -269,7 +269,7 @@
       if (countEl) countEl.textContent = `${listToRender.length} wines`;
 
       grid.innerHTML = listToRender.map((wine, idx) => `
-        <a class="wine-card" href="vinho.html?id=${encodeURIComponent(wine.id)}">
+        <a class="wine-card" href="vinhos.html?id=${encodeURIComponent(wine.id)}">
           <img src="${wine.imagem}" alt="${wine.nome} ${wine.ano}" loading="lazy" />
           <div class="wine-card-content">
             <div class="wine-name">${wine.nome} (${wine.ano})</div>
@@ -307,4 +307,5 @@
 
 </body>
 </html>
+
 
