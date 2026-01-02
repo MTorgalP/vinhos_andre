@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,16 +9,12 @@
   <style>
     :root{
       --bg: #0b0b0d;            /* deep charcoal */
-      --surface: rgba(255,255,255,.06);
-      --surface2: rgba(255,255,255,.09);
-      --border: rgba(255,255,255,.14);
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.70);
       --accent: #b11f35;        /* wine red */
       --accent2:#f1c376;        /* warm gold */
       --shadow: 0 18px 40px rgba(0,0,0,.45);
       --r-lg: 22px;
-      --r-md: 16px;
       --max: 1100px;
     }
 
@@ -37,7 +34,6 @@
     }
 
     a{ color:inherit; text-decoration:none; }
-    a:hover{ text-decoration:none; }
 
     .container{
       max-width: var(--max);
@@ -204,7 +200,6 @@
       font-size: .92rem;
     }
 
-    /* Small screens polish */
     @media (max-width: 520px){
       .badge { display:none; }
       .wine-card img { height: 250px; }
@@ -252,60 +247,59 @@
   </footer>
 
   <script>
-  async function loadWines() {
-    const grid = document.getElementById("wineGrid");
-    const countEl = document.getElementById("wineCount");
+    async function loadWines() {
+      const grid = document.getElementById("wineGrid");
+      const countEl = document.getElementById("wineCount");
 
-    try {
-      const response = await fetch("data/vinhos.json", { cache: "no-store" });
-      if (!response.ok) throw new Error("HTTP " + response.status);
+      try {
+        const response = await fetch("data/vinhos.json", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error("Failed to load vinhos.json (HTTP " + response.status + ")");
+        }
 
-      const wines = await response.json();
+        const wines = await response.json();
 
-      // ✅ Repeat the same wines N times (no extra images/data needed)
-      const REPEAT_TIMES = 8; // increase/decrease to taste
-      const listToRender = Array.from({ length: REPEAT_TIMES }, () => wines).flat();
+        // ✅ Make the catalog look bigger WITHOUT adding more data/images
+        const REPEAT_TIMES = 10; // tweak this number
+        const listToRender = Array.from({ length: REPEAT_TIMES }, () => wines).flat();
 
-      if (countEl) countEl.textContent = `${listToRender.length} wines`;
+        if (countEl) countEl.textContent = `${listToRender.length} wines`;
 
-      grid.innerHTML = listToRender.map((wine, idx) => `
-        <a class="wine-card" href="vinhos.html?id=${encodeURIComponent(wine.id)}">
-          <img src="${wine.imagem}" alt="${wine.nome} ${wine.ano}" loading="lazy" />
-          <div class="wine-card-content">
-            <div class="wine-name">${wine.nome} (${wine.ano})</div>
-            <div class="wine-meta">
-              ${wine.regiao} · ${wine.descricaoCurta}
+        grid.innerHTML = listToRender.map((wine, idx) => `
+          <a class="wine-card" href="vinhos.html?id=${encodeURIComponent(wine.id)}">
+            <img src="${wine.imagem}" alt="${wine.nome} ${wine.ano}" loading="lazy" />
+            <div class="wine-card-content">
+              <div class="wine-name">${wine.nome} (${wine.ano})</div>
+              <div class="wine-meta">
+                ${wine.regiao} · ${wine.descricaoCurta}
 
-              <div class="pill-row">
-                <span class="pill">${wine.regiao}</span>
-                <span class="pill">${wine.ano}</span>
-                <span class="pill">Bottle #${idx + 1}</span>
+                <div class="pill-row">
+                  <span class="pill">${wine.regiao}</span>
+                  <span class="pill">${wine.ano}</span>
+                  <span class="pill">Bottle #${idx + 1}</span>
+                </div>
               </div>
             </div>
+          </a>
+        `).join("");
+
+      } catch (error) {
+        console.error(error);
+        if (countEl) countEl.textContent = "Error";
+        grid.innerHTML = `
+          <div class="story" style="max-width: 100%;">
+            <p style="color: rgba(255,255,255,.86); margin:0 0 8px;">
+              Could not load <strong>data/vinhos.json</strong>.
+            </p>
+            <p style="margin:0; color: rgba(255,255,255,.70);">
+              Check the file path, commit/push status, and that GitHub Pages is serving from the correct folder.
+            </p>
           </div>
-        </a>
-      `).join("");
-
-    } catch (err) {
-      console.error(err);
-      if (countEl) countEl.textContent = "Error";
-      grid.innerHTML = `
-        <div class="story" style="max-width: 100%;">
-          <p style="color: rgba(255,255,255,.86); margin:0 0 8px;">
-            Could not load <strong>data/vinhos.json</strong>.
-          </p>
-          <p style="margin:0; color: rgba(255,255,255,.70);">
-            Check the file path and GitHub Pages settings.
-          </p>
-        </div>
-      `;
+        `;
+      }
     }
-  }
 
-  loadWines();
-</script>
-
+    loadWines();
+  </script>
 </body>
 </html>
-
-
