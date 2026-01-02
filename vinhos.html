@@ -99,19 +99,6 @@
       max-height: 520px;
     }
 
-    .image-overlay{
-      position:absolute;
-      inset:auto 14px 14px 14px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.45));
-      border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(10px);
-      display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
     .pill{
       display:inline-flex;
       gap:8px;
@@ -238,11 +225,6 @@
           <div class="wine-layout">
             <div class="wine-image">
               <img src="${wine.imagem}" alt="${title}" loading="lazy" />
-              <div class="image-overlay">
-                <span class="pill">${wine.regiao}</span>
-                <span class="pill">${wine.ano}</span>
-                ${castas ? `<span class="pill">${castas}</span>` : ``}
-              </div>
             </div>
 
             <div class="card">
@@ -282,3 +264,4 @@
   </script>
 </body>
 </html>
+
